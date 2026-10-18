@@ -1,0 +1,413 @@
+.main {
+  padding-top: 0;
+}
+
+/* Hero Banner */
+.hero {
+  position: relative;
+  padding: 140px 0 60px;
+  background: var(--hero-gradient);
+  overflow: hidden;
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+}
+
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--blue-300);
+  margin-bottom: 16px;
+  transition: color 0.3s var(--ease);
+}
+
+.breadcrumb:hover {
+  color: var(--white);
+}
+
+.heroTitle {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.heroSubtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 600px;
+}
+
+.heroCtas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+/* Shared brochure button (used in the hero) */
+.brochureBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--white);
+  color: var(--blue-700);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s var(--ease);
+}
+
+.brochureBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Filter Bar */
+.filterBar {
+  position: sticky;
+  top: 60px;
+  z-index: 50;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
+  padding: 16px 0;
+}
+
+.filterInner {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.filterInner::-webkit-scrollbar {
+  display: none;
+}
+
+.filterPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  background: var(--gray-100);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  transition: all 0.3s var(--ease);
+  border: 1.5px solid transparent;
+}
+
+.filterPill:hover {
+  background: var(--blue-50);
+  color: var(--blue-700);
+}
+
+.filterPill.active {
+  background: var(--blue-600);
+  color: var(--white);
+  border-color: var(--blue-600);
+}
+
+/* Content */
+.content {
+  padding: 48px 24px 80px;
+}
+
+/* Category Section */
+.categorySection {
+  margin-bottom: 60px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s var(--ease);
+}
+
+.categorySection.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.catHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 28px;
+  padding-top: 20px;
+}
+
+.catIcon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.catTitle {
+  font-size: 1.5rem;
+  color: var(--gray-900);
+  margin-bottom: 4px;
+}
+
+.catDesc {
+  font-size: 0.9rem;
+  color: var(--gray-500);
+}
+
+/* Wrapper for the title/description so the brochure button sits at the far right */
+.catHeaderText {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Brochure button inside the category header */
+.catHeaderBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--cta-gradient);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-blue);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.3s var(--ease);
+}
+
+.catHeaderBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-blue-lg);
+}
+
+/* Table */
+.tableWrap {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gray-500);
+  background: var(--gray-50);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.table td {
+  padding: 18px 20px;
+  font-size: 0.95rem;
+  color: var(--gray-700);
+  border-bottom: 1px solid var(--gray-100);
+  vertical-align: top;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr {
+  transition: background 0.2s var(--ease);
+}
+
+.table tbody tr:hover {
+  background: var(--blue-50);
+}
+
+.sno {
+  font-weight: 700;
+  color: var(--blue-400);
+  text-align: center;
+  width: 60px;
+}
+
+.progName {
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: 6px;
+}
+
+.progTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.progTag {
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 2px 8px;
+  background: var(--blue-50);
+  color: var(--blue-600);
+  border-radius: var(--radius-full);
+}
+
+.duration {
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.fee {
+  font-weight: 700;
+  color: var(--gray-900);
+  white-space: nowrap;
+}
+
+.freeTag {
+  display: inline-block;
+  padding: 2px 12px;
+  background: var(--green);
+  color: var(--white);
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.enquireBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  background: var(--cta-gradient);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-radius: var(--radius-full);
+  transition: all 0.3s var(--ease);
+  white-space: nowrap;
+}
+
+.enquireBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-blue);
+}
+
+/* Mobile Cards */
+.mobileCards {
+  display: none;
+}
+
+.mobileCard {
+  padding: 24px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+  margin-bottom: 12px;
+}
+
+.mobileCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.mobileNum {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--blue-50);
+  color: var(--blue-600);
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.mobileName {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.mobileTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.mobileMeta {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.mobileDetail {
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  font-weight: 500;
+}
+
+.mobileCard .enquireBtn {
+  width: 100%;
+  justify-content: center;
+  padding: 12px;
+}
+
+@media (max-width: 768px) {
+  .tableWrap {
+    display: none;
+  }
+
+  .mobileCards {
+    display: block;
+  }
+
+  .catHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .catHeaderBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .heroCtas {
+    width: 100%;
+  }
+
+  .brochureBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .content {
+    padding: 32px 16px 60px;
+  }
+}

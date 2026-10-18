@@ -1,0 +1,130 @@
+.categories {
+  background: var(--gray-50);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.card {
+  position: relative;
+  padding: 32px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+  transition: all 0.4s var(--ease);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  animation-delay: var(--delay);
+  cursor: pointer;
+}
+
+.card.visible {
+  animation: fadeInUp 0.6s var(--ease) var(--delay) forwards;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+}
+
+.cardGlow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease);
+}
+
+.card:hover .cardGlow {
+  transform: scaleX(1);
+}
+
+.cardIcon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: var(--blue-50);
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  transition: all 0.3s var(--ease);
+}
+
+.card:hover .cardIcon {
+  transform: scale(1.1);
+  background: var(--blue-100);
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 8px;
+}
+
+.cardDesc {
+  font-size: 0.9rem;
+  color: var(--gray-500);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.programCount {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--blue-600);
+  padding: 4px 12px;
+  background: var(--blue-50);
+  border-radius: var(--radius-full);
+}
+
+.cardArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--gray-100);
+  color: var(--gray-500);
+  transition: all 0.3s var(--ease);
+}
+
+.card:hover .cardArrow {
+  background: var(--blue-600);
+  color: var(--white);
+  transform: translateX(4px);
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 24px;
+  }
+}
