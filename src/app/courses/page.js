@@ -8,6 +8,18 @@ import BrochureDownload from "../../components/BrochureDownload";
 import { programs } from "../../data/courseData";
 import styles from "./courses.module.css";
 
+// Programs 1–5 have brochures; the rest go to the enquiry form.
+function ProgramAction({ prog }) {
+  if (prog.sno <= 5) {
+    return <BrochureDownload className={styles.enquireBtn} program={prog.name} />;
+  }
+  return (
+    <Link href="/#contact" className={styles.enquireBtn}>
+      Enquire Now
+    </Link>
+  );
+}
+
 export default function CoursesPage() {
   const [visible, setVisible] = useState(false);
 
@@ -47,9 +59,6 @@ export default function CoursesPage() {
               programs designed to make you job-ready
             </p>
 
-            <div className={styles.heroCtas}>
-              <BrochureDownload className={`btnPrimary ${styles.brochureBtn}`} />
-            </div>
           </div>
         </section>
 
@@ -69,13 +78,9 @@ export default function CoursesPage() {
               <div className={styles.catHeaderText}>
                 <h2 className={styles.catTitle}>All Programs</h2>
                 <p className={styles.catDesc}>
-                  Choose the program that matches your career goals
+                  Choose the program that matches your career goals. All the programs are Online, Live, and Industry-Oriented. You can also combine multiple programs to create a personalized learning path.
                 </p>
               </div>
-              <BrochureDownload
-                className={styles.catHeaderBtn}
-                label="Download Brochure"
-              />
             </div>
 
             {/* Desktop Table */}
@@ -107,9 +112,7 @@ export default function CoursesPage() {
                       </td>
                       <td className={styles.duration}>{prog.duration || "—"}</td>
                       <td>
-                        <Link href="/#contact" className={styles.enquireBtn}>
-                          Enquire Now
-                        </Link>
+                        <ProgramAction prog={prog} />
                       </td>
                     </tr>
                   ))}
@@ -139,9 +142,7 @@ export default function CoursesPage() {
                       🕐 {prog.duration}
                     </span>
                   </div>
-                  <Link href="/#contact" className={styles.enquireBtn}>
-                    Enquire Now
-                  </Link>
+                  <ProgramAction prog={prog} />
                 </div>
               ))}
             </div>

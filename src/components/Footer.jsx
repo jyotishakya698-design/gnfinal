@@ -12,10 +12,10 @@ export default function Footer() {
             <Image
               src="/GN-logo-light.png"
               alt="Good Notation — The Data & AI School"
-              width={170}
+              width={120}
               height={0}
               sizes="170px"
-              style={{ width: "170px", height: "auto" }}
+              style={{ width: "120px", height: "auto" }}
             />
           </Link>
           <p className={styles.brandDesc}>

@@ -306,6 +306,9 @@
   border-radius: var(--radius-full);
   transition: all 0.3s var(--ease);
   white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .enquireBtn:hover {

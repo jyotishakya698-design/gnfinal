@@ -53,13 +53,13 @@ export const programs = [
   {
     sno: 7,
     name: "Live Project Training Using AI",
-    duration: "3 Months",
+    duration: "1 Month",
     tags: ["Real Projects", "Agile Workflow", "Git & GitHub", "Deployment"],
   },
   {
     sno: 8,
-    name: "Personality Development with Interview Preparation",
-    duration: "2 Months",
+    name: "Interview Preparation",
+    duration: "1 Month",
     tags: ["Communication", "Group Discussion", "Mock Interviews", "Resume Building"],
   },
 ];
