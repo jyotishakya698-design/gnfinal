@@ -39,7 +39,7 @@ export const programs = [
   {
     sno: 5,
     name: "Business Analyst + Using AI",
-    duration: "8 Months",
+    duration: "6 Months",
     tags: ["Requirements Analysis", "Process Modeling", "Agile", "Stakeholder Management"],
     brochure: "/brochures/Business-Analyst-Syllabus-2026.pdf",
     brochureName: "Business-Analyst-Syllabus-2026.pdf",
