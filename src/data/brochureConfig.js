@@ -12,7 +12,7 @@
 
 export const brochureConfig = {
   // 1) Where brochure-request form responses are emailed.
-  email: process.env.BROCHURE_EMAIL || "jyoti.shakya698@gmail.com",
+  email: process.env.BROCHURE_EMAIL || "info@goodnotation.com",
 
   // 2) The brochure file offered for download.
   //    Drop your PDF into /public/brochures/ and point to it here.

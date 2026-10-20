@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { programs } from "../data/courseData";
 import styles from "./BrochureDownload.module.css";
 
@@ -12,9 +13,17 @@ export default function BrochureDownload({
   program = "",
 }) {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [formData, setFormData] = useState({ ...emptyForm, course: program });
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
   const [errorMsg, setErrorMsg] = useState("");
+
+  // The modal is rendered through a portal into <body> so that no ancestor
+  // with a CSS `transform` (e.g. animated sections) can trap its fixed
+  // positioning and push it off-screen on small devices.
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Keep the pre-selected program in sync with the prop.
   useEffect(() => {
@@ -119,6 +128,115 @@ export default function BrochureDownload({
     setErrorMsg("");
   };
 
+  const modal = (
+    <div className={styles.overlay} onClick={close} role="presentation">
+      <div
+        className={styles.modal}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Download brochure"
+      >
+        <button
+          className={styles.closeBtn}
+          onClick={close}
+          aria-label="Close"
+          type="button"
+        >
+          &times;
+        </button>
+
+        {status === "success" ? (
+          <div className={styles.success}>
+            <div className={styles.successIcon}>✅</div>
+            <h3 className={styles.successTitle}>Your download has started</h3>
+            <p className={styles.successText}>
+              Thanks! Your brochure is downloading now. If it doesn&apos;t
+              start automatically, check your browser&apos;s downloads.
+            </p>
+            <button type="button" className={styles.doneBtn} onClick={close}>
+              Done
+            </button>
+          </div>
+        ) : (
+          <>
+            <h3 className={styles.title}>
+              {program ? `Download the ${program} Brochure` : "Download the Brochure"}
+            </h3>
+            <p className={styles.subtitle}>
+              Fill in your details and the{" "}
+              {program ? `${program} ` : "Good Notation program "}
+              brochure will download instantly.
+            </p>
+
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <div className={styles.field}>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className={styles.field}>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className={styles.field}>
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className={styles.field}>
+                <select
+                  name="course"
+                  value={formData.course}
+                  onChange={handleChange}
+                >
+                  <option value="">Program of interest (optional)</option>
+                  {programs.map((p) => (
+                    <option key={p.sno} value={p.name}>
+                      {p.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {status === "error" && (
+                <p className={styles.error} role="alert">
+                  {errorMsg}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                className={styles.submitBtn}
+                disabled={status === "submitting"}
+              >
+                {status === "submitting"
+                  ? "Preparing your brochure..."
+                  : "Download Brochure"}
+              </button>
+            </form>
+          </>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <>
       <button
@@ -143,118 +261,7 @@ export default function BrochureDownload({
         </svg>
       </button>
 
-      {open && (
-        <div className={styles.overlay} onClick={close} role="presentation">
-          <div
-            className={styles.modal}
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Download brochure"
-          >
-            <button
-              className={styles.closeBtn}
-              onClick={close}
-              aria-label="Close"
-              type="button"
-            >
-              &times;
-            </button>
-
-            {status === "success" ? (
-              <div className={styles.success}>
-                <div className={styles.successIcon}>✅</div>
-                <h3 className={styles.successTitle}>Your download has started</h3>
-                <p className={styles.successText}>
-                  Thanks! Your brochure is downloading now. If it doesn&apos;t
-                  start automatically, check your browser&apos;s downloads.
-                </p>
-                <button
-                  type="button"
-                  className={styles.doneBtn}
-                  onClick={close}
-                >
-                  Done
-                </button>
-              </div>
-            ) : (
-              <>
-                <h3 className={styles.title}>
-                  {program ? `Download the ${program} Brochure` : "Download the Brochure"}
-                </h3>
-                <p className={styles.subtitle}>
-                  Fill in your details and the{" "}
-                  {program ? `${program} ` : "Good Notation program "}
-                  brochure will download instantly.
-                </p>
-
-                <form onSubmit={handleSubmit} className={styles.form}>
-                  <div className={styles.field}>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Your Name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className={styles.field}>
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Email Address"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className={styles.field}>
-                    <input
-                      type="tel"
-                      name="phone"
-                      placeholder="Phone Number"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className={styles.field}>
-                    <select
-                      name="course"
-                      value={formData.course}
-                      onChange={handleChange}
-                    >
-                      <option value="">Program of interest (optional)</option>
-                      {programs.map((p) => (
-                        <option key={p.sno} value={p.name}>
-                          {p.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {status === "error" && (
-                    <p className={styles.error} role="alert">
-                      {errorMsg}
-                    </p>
-                  )}
-
-                  <button
-                    type="submit"
-                    className={styles.submitBtn}
-                    disabled={status === "submitting"}
-                  >
-                    {status === "submitting"
-                      ? "Preparing your brochure..."
-                      : "Download Brochure"}
-                  </button>
-                </form>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+      {open && mounted && createPortal(modal, document.body)}
     </>
   );
 }

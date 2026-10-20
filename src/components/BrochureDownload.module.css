@@ -1,34 +1,62 @@
+/* ============================================
+   Brochure Download — Responsive Modal
+   ------------------------------------------------------------
+   Rendered through a React portal into <body>, so the fixed
+   overlay is always positioned against the viewport (never
+   trapped by an ancestor `transform`).
+   Sizing is fluid (clamp) and the modal never exceeds the
+   visible viewport height — its content scrolls instead.
+   ============================================ */
+
 .overlay {
+  /* Fluid gutter that also respects device safe areas (notches / home bar). */
+  --pad-x: clamp(12px, 4vw, 24px);
+  --pad-top: max(clamp(12px, 4vw, 24px), env(safe-area-inset-top, 0px));
+  --pad-bottom: max(clamp(12px, 4vw, 24px), env(safe-area-inset-bottom, 0px));
+
   position: fixed;
   inset: 0;
-  bottom:auto;
   z-index: 1000;
-  background: rgba(6, 27, 61, 0.65);
-  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
+  background: rgba(6, 27, 61, 0.65);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   animation: fadeIn 0.2s var(--ease);
 }
 
 .modal {
+  /* Tap-target sized close button, reused for the title offset. */
+  --close-size: clamp(34px, 9vw, 40px);
+
   position: relative;
   width: 100%;
   max-width: 440px;
+  /* Never taller than the space between the safe-area-aware gutters. */
+  max-height: calc(100vh - var(--pad-top) - var(--pad-bottom));
+  max-height: calc(100dvh - var(--pad-top) - var(--pad-bottom));
+  margin: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   background: var(--white);
-  border-radius: var(--radius-xl);
-  padding: 36px 32px 32px;
+  border-radius: clamp(18px, 4vw, 24px);
+  padding: clamp(26px, 6vw, 36px) clamp(18px, 5vw, 32px) clamp(22px, 5vw, 32px);
   box-shadow: var(--shadow-xl);
   animation: pop 0.25s var(--ease-spring);
 }
 
 .closeBtn {
   position: absolute;
-  top: 14px;
-  right: 16px;
-  width: 34px;
-  height: 34px;
+  top: clamp(10px, 2.5vw, 14px);
+  right: clamp(10px, 2.5vw, 16px);
+  width: var(--close-size);
+  height: var(--close-size);
   border-radius: 50%;
   font-size: 1.5rem;
   line-height: 1;
@@ -37,6 +65,8 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s var(--ease);
+  touch-action: manipulation;
+  z-index: 2;
 }
 
 .closeBtn:hover {
@@ -45,48 +75,65 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: clamp(1.15rem, 4.6vw, 1.5rem);
   color: var(--gray-900);
   margin-bottom: 8px;
+  /* Keep the heading clear of the close button on narrow screens. */
+  padding-right: calc(var(--close-size) + 14px);
 }
 
 .subtitle {
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 3.6vw, 0.95rem);
   color: var(--gray-500);
-  margin-bottom: 22px;
+  margin-bottom: clamp(16px, 4vw, 22px);
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: clamp(10px, 2.6vw, 12px);
+}
+
+.field {
+  width: 100%;
 }
 
 .field input,
 .field select {
   width: 100%;
-  padding: 13px 16px;
+  /* 16px keeps iOS Safari from zooming the page on focus. */
+  font-size: 16px;
+  padding: clamp(12px, 3.5vw, 13px) clamp(14px, 4vw, 16px);
+  min-height: 48px;
   border: 1.5px solid var(--gray-200);
   border-radius: var(--radius-md);
-  font-size: 0.95rem;
   color: var(--gray-900);
   background: var(--gray-50);
   transition: all 0.2s var(--ease);
   outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right clamp(14px, 4vw, 16px) center;
+  padding-right: 42px;
 }
 
 .field input:focus,
 .field select:focus {
   border-color: var(--blue-500);
-  background: var(--white);
+  background-color: var(--white);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .error {
   font-size: 0.85rem;
   color: var(--red);
-  background: #FEF2F2;
-  border: 1px solid #FECACA;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
   border-radius: var(--radius-sm);
   padding: 10px 12px;
 }
@@ -97,14 +144,17 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 14px 24px;
+  width: 100%;
+  min-height: 50px;
+  padding: clamp(13px, 3.6vw, 14px) 24px;
   background: var(--cta-gradient);
   color: var(--white);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: clamp(0.95rem, 4vw, 1rem);
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-blue);
   transition: all 0.3s var(--ease);
+  touch-action: manipulation;
 }
 
 .submitBtn:hover:not(:disabled) {
@@ -120,38 +170,48 @@
 /* Success state */
 .success {
   text-align: center;
-  padding: 12px 4px 4px;
+  padding: clamp(6px, 2vw, 12px) 4px 4px;
 }
 
 .successIcon {
-  font-size: 2.6rem;
+  font-size: clamp(2.1rem, 9vw, 2.6rem);
   margin-bottom: 12px;
 }
 
 .successTitle {
-  font-size: 1.35rem;
+  font-size: clamp(1.1rem, 4.6vw, 1.35rem);
   color: var(--gray-900);
   margin-bottom: 8px;
 }
 
 .successText {
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 3.6vw, 0.95rem);
   color: var(--gray-500);
-  margin-bottom: 22px;
+  margin-bottom: clamp(16px, 4vw, 22px);
 }
 
 .doneBtn {
+  min-height: 48px;
   padding: 12px 32px;
   background: var(--blue-600);
   color: var(--white);
   font-weight: 600;
   border-radius: var(--radius-full);
   transition: all 0.3s var(--ease);
+  touch-action: manipulation;
 }
 
 .doneBtn:hover {
   background: var(--blue-700);
   transform: translateY(-2px);
+}
+
+/* Focus visibility for keyboard users */
+.closeBtn:focus-visible,
+.submitBtn:focus-visible,
+.doneBtn:focus-visible {
+  outline: 3px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
 }
 
 @keyframes fadeIn {
@@ -167,5 +227,81 @@
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
+  }
+}
+
+/* ---------- Small phones ---------- */
+@media (max-width: 400px) {
+  .modal {
+    max-width: 100%;
+    border-radius: 18px;
+  }
+
+  .submitBtn,
+  .doneBtn {
+    width: 100%;
+  }
+}
+
+/* ---------- Landscape phones / short viewports ----------
+   Lay the fields out in two columns so the whole form fits
+   without scrolling on low-height screens. */
+@media (max-height: 560px) and (orientation: landscape) {
+  .modal {
+    max-width: 620px;
+    padding: 20px 24px;
+  }
+
+  .title {
+    font-size: 1.15rem;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-size: 0.82rem;
+    margin-bottom: 12px;
+  }
+
+  .form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* Name | Email on the first row, Phone | Program on the second,
+     then the full-width error / submit button. */
+  .error,
+  .submitBtn {
+    grid-column: 1 / -1;
+  }
+
+  .field input,
+  .field select {
+    min-height: 44px;
+    padding: 10px 14px;
+  }
+
+  .submitBtn {
+    min-height: 44px;
+    padding: 11px 20px;
+  }
+
+  .successIcon {
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .modal {
+    animation: none;
+  }
+
+  .submitBtn:hover:not(:disabled),
+  .doneBtn:hover,
+  .closeBtn:hover {
+    transform: none;
   }
 }
